@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+<h1>Skill Analysis</h1>
+<% if (!rows.length) { %>
+  <div class="card empty-state"><h2>Your next challenge is waiting.</h2>
+    <p class="muted">Complete an assessment to see your skill analysis.</p>
+    <a class="btn btn-primary" href="/assessments">Take Assessment</a></div>
+<% } else { %>
+  <section class="stat-grid">
+    <div class="card stat"><span class="stat-label">Overall Skill Score</span><strong><%= overall %>%</strong></div>
+    <% Object.keys(groups).forEach(function (label) { %>
+      <div class="card stat"><span class="stat-label"><%= label %> skills</span><strong><%= groups[label] %></strong></div>
+    <% }) %>
+  </section>
+  <section class="card">
+    <h2>Categories</h2>
+    <% categories.forEach(function (c) { %>
+      <div class="skill-row"><span class="skill-name"><%= c.name %></span>
+        <div class="progress"><div class="progress-bar" style="width: <%= c.score %>%"></div></div>
+        <span class="badge"><%= c.score %>%</span></div>
+    <% }) %>
+  </section>
+  <section class="card">
+    <h2>Every skill</h2>
+    <% rows.forEach(function (r) { const l = classify(r.score); %>
+      <div class="skill-row"><span class="skill-name"><%= r.name %></span>
+        <div class="progress"><div class="progress-bar" style="width: <%= r.score %>%"></div></div>
+        <span class="badge badge-<%= l.tone %>"><%= Math.round(r.score) %>% · <%= l.label %>
+          <% if (r.previous_score !== null) { const d = Math.round(r.score - r.previous_score); %>
+            (<%= d >= 0 ? '+' : '' %><%= d %> vs last time)<% } %></span></div>
+    <% }) %>
+  </section>
+  <section class="card recommendation">
+    <h2>Recommendation</h2>
+    <p>Your weakest skill is <strong><%= weakest.name %></strong> (<%= Math.round(weakest.score) %>%). Generate a roadmap to get focused resources for it.</p>
+    <a class="btn btn-primary" href="/roadmap">View My Roadmap</a>
+  </section>
+<% } %>
+<%- include('../partials/footer') %>

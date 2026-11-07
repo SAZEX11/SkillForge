@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+<%- include('../partials/content-nav') %>
+<h1>Skills</h1>
+<form class="card filters" action="/content/skills" method="POST">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input name="name" placeholder="New skill name" required maxlength="100" aria-label="Skill name">
+  <select name="category_id" required aria-label="Category"><% categories.forEach(function (c) { %><option value="<%= c.id %>"><%= c.name %></option><% }) %></select>
+  <input type="number" name="threshold" value="70" min="0" max="100" required aria-label="Threshold">
+  <input name="description" placeholder="Description (optional)" aria-label="Description">
+  <button class="btn btn-primary" type="submit">Add skill</button>
+</form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Skill</th><th>Category</th><th>Threshold</th><th></th></tr></thead><tbody>
+  <% skills.forEach(function (s) { %>
+    <tr><form action="/content/skills/<%= s.id %>" method="POST" id="skill-<%= s.id %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>"></form>
+      <td><input form="skill-<%= s.id %>" name="name" value="<%= s.name %>" required aria-label="Name"></td>
+      <td><select form="skill-<%= s.id %>" name="category_id" aria-label="Category"><% categories.forEach(function (c) { %><option value="<%= c.id %>" <%= c.id === s.category_id ? 'selected' : '' %>><%= c.name %></option><% }) %></select></td>
+      <td><input form="skill-<%= s.id %>" type="number" name="threshold" value="<%= s.threshold %>" min="0" max="100" required aria-label="Threshold"></td>
+      <td><button form="skill-<%= s.id %>" class="btn btn-outline btn-sm" type="submit">Save</button></td></tr>
+  <% }) %></tbody></table></section>
+<%- include('../partials/footer') %>

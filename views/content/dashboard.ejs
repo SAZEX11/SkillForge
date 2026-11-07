@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<section class="welcome-panel manager-welcome"><div><span class="eyebrow">CONTENT WORKSPACE</span><h1>Build better learning experiences.</h1><p>Manage the skills, questions, assessments and resources that power SkillForge.</p><a class="action-primary" href="/content/assessments/new">Create an assessment <span>→</span></a></div><div class="welcome-art manager-art" aria-hidden="true"><div class="art-stack">▤<br>▧<br>▣</div><div class="art-spark">✦</div></div></section>
+<section class="dashboard-section"><div class="section-heading"><div><span class="eyebrow">CONTENT HEALTH</span><h2>Workspace overview</h2></div></div>
+  <div class="stat-grid manager-stats">
+    <article class="metric-card"><span class="metric-icon teal-icon">☷</span><span class="stat-label">Active questions</span><strong><%= counts.questions %></strong><small>Available in the question bank</small></article>
+    <article class="metric-card"><span class="metric-icon green-icon">✓</span><span class="stat-label">Published assessments</span><strong><%= counts.published %></strong><small>Visible to learners</small></article>
+    <article class="metric-card"><span class="metric-icon amber-icon">◷</span><span class="stat-label">Draft assessments</span><strong><%= counts.drafts %></strong><small>Still being prepared</small></article>
+    <article class="metric-card"><span class="metric-icon violet-icon">▣</span><span class="stat-label">Skills / resources</span><strong><%= counts.skills %> / <%= counts.resources %></strong><small>Learning catalogue</small></article>
+  </div>
+</section>
+<section class="dashboard-section"><div class="section-heading"><div><span class="eyebrow">QUICK ACCESS</span><h2>Manage your content</h2></div></div>
+  <div class="quick-grid manager-actions">
+    <a class="quick-card" href="/content/questions"><span class="quick-icon">☷</span><span><strong>Question bank</strong><small>Create, edit and organize questions.</small></span><b>→</b></a>
+    <a class="quick-card" href="/content/assessments"><span class="quick-icon">▤</span><span><strong>Assessments</strong><small>Build, review and publish assessments.</small></span><b>→</b></a>
+    <a class="quick-card" href="/content/skills"><span class="quick-icon">◇</span><span><strong>Skills</strong><small>Maintain the platform skill catalogue.</small></span><b>→</b></a>
+    <a class="quick-card" href="/content/resources"><span class="quick-icon">▣</span><span><strong>Resources</strong><small>Curate useful learning materials.</small></span><b>→</b></a>
+  </div>
+</section>
+<section class="dashboard-columns dashboard-section">
+  <article class="panel-card"><div class="section-heading compact"><div><span class="eyebrow">LEARNER OUTCOMES</span><h2>Assessment performance</h2></div></div>
+    <% if (!stats.length) { %><div class="empty-state"><span>▤</span><strong>No assessment data yet</strong><p>Once learners complete assessments, participation and average scores will appear here.</p></div><% } %>
+    <% stats.forEach(function (s) { %><div class="performance-row"><div><strong><%= s.title %></strong><small><%= s.attempts %> completed attempts</small></div><b><%= s.avg_score === null ? '—' : Math.round(Number(s.avg_score)) + '%' %></b></div><% }) %>
+  </article>
+  <article class="panel-card"><div class="section-heading compact"><div><span class="eyebrow">CONTENT CHANGES</span><h2>Recent activity</h2></div></div>
+    <% if (!recent.length) { %><div class="empty-state"><span>◷</span><strong>No recent changes</strong><p>Updates to learning content will be listed here.</p></div><% } %>
+    <% recent.forEach(function (r) { %><div class="timeline-item"><span class="timeline-dot"></span><div><strong><%= r.action %> · <%= r.entity_type %></strong><small><%= r.name || 'System' %> · <%= new Date(r.created_at).toLocaleString() %></small></div></div><% }) %>
+  </article>
+</section>
+<%- include('../partials/footer') %>

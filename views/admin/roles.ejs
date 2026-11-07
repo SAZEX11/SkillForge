@@ -1,0 +1,7 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-nav') %>
+<h1>Roles</h1><p class="muted">Assign roles from a user's detail page.</p>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Role</th><th>Users</th></tr></thead><tbody>
+  <% rows.forEach(function (r) { %><tr><td><%= r.name %></td><td><%= r.users %></td></tr><% }) %></tbody></table></section>
+<a class="btn btn-primary" href="/admin/users">Manage users</a>
+<%- include('../partials/footer') %>

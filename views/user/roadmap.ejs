@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+<div class="page-head">
+  <div><h1>Your Personalized Roadmap</h1>
+    <p class="muted"><%= roadmap ? 'Goal: ' + (roadmap.career_goal || 'Not set') : 'Built from your skill gaps.' %></p></div>
+  <form action="/roadmap/generate" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="btn btn-primary" type="submit"><%= roadmap ? 'Regenerate Roadmap' : 'Generate Roadmap' %></button>
+  </form>
+</div>
+<% if (!roadmap) { %>
+  <div class="card empty-state"><h2>No roadmap yet</h2>
+    <p class="muted">Complete an assessment to generate your personalized roadmap.</p>
+    <a class="btn btn-outline" href="/assessments">Take Assessment</a></div>
+<% } else { %>
+  <div class="card"><strong>Overall progress: <%= percent %>%</strong>
+    <div class="progress"><div class="progress-bar" style="width: <%= percent %>%"></div></div></div>
+  <ol class="timeline">
+    <% steps.forEach(function (s) { %>
+      <li class="timeline-step step-<%= s.state %>">
+        <span class="step-number"><%= s.state === 'completed' ? '✓' : String(s.priority).padStart(2, '0') %></span>
+        <div class="card step-card">
+          <h2><%= s.skill %> <span class="badge"><%= s.state === 'completed' ? 'Completed' : s.state === 'current' ? 'In focus' : 'Up next' %></span></h2>
+          <p class="muted"><%= s.description %></p>
+          <p class="meta">Priority <%= s.priority %> · Gap <%= Math.round(s.gap) %> pts · Due <%= s.due_date %> · <%= s.done %>/<%= s.items.length %> done</p>
+          <% s.items.forEach(function (it) { %>
+            <div class="resource-line">
+              <div>
+                <% if (it.url) { %><a href="<%= it.url %>" target="_blank" rel="noopener noreferrer"><%= it.title %></a>
+                  <span class="chip"><%= it.resource_type %></span><span class="chip"><%= it.difficulty %></span>
+                <% } else { %><span class="muted">No resource available yet</span><% } %>
+              </div>
+              <% if (it.status === 'completed') { %><span class="badge badge-success">✓ Done</span>
+              <% } else { %>
+                <form action="/roadmap/items/<%= it.id %>/complete" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <button class="btn btn-outline btn-sm" type="submit">Mark complete</button>
+                </form>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      </li>
+    <% }) %>
+  </ol>
+<% } %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,97 @@
+
+<%- include('../partials/header') %>
+
+<div class="auth-panda-layout">
+
+  <!-- Animated panda -->
+  <%- include('../partials/panda') %>
+
+  <!-- Registration form -->
+  <section class="auth-card">
+
+    <h1>Create your account</h1>
+    <p class="muted">Assess. Understand. Improve.</p>
+
+    <form class="auth-form" action="/register" method="POST" novalidate>
+
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="form-group">
+        <label for="name">Full name</label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          value="<%= values.name || '' %>"
+          required
+          autocomplete="name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          value="<%= values.email || '' %>"
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password (min 8 characters)</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          minlength="8"
+          required
+          autocomplete="new-password"
+          data-panda-password
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password">Confirm password</label>
+        <input
+          id="confirm_password"
+          type="password"
+          name="confirm_password"
+          required
+          autocomplete="new-password"
+          data-panda-password
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="career_goal">Career goal</label>
+        <select id="career_goal" name="career_goal" required>
+          <option value="">Select a goal</option>
+
+          <% goals.forEach(function (g) { %>
+            <option value="<%= g %>" <%= values.career_goal === g ? 'selected' : '' %>>
+              <%= g %>
+            </option>
+          <% }) %>
+
+        </select>
+      </div>
+
+      <button class="btn btn-primary btn-block" type="submit">
+        Create account
+      </button>
+
+      <p>Already registered? <a href="/login">Log in</a></p>
+
+    </form>
+
+  </section>
+
+</div>
+
+<!-- Panda animation -->
+<script src="/js/panda-animation.js"></script>
+
+<%- include('../partials/footer') %>

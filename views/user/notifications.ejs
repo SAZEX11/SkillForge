@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+<div class="page-head"><h1>Notifications</h1>
+  <form action="/notifications/read-all" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="btn btn-outline" type="submit">Mark all as read</button></form></div>
+<% if (!items.length) { %><div class="card empty-state"><h2>You're all caught up</h2><p class="muted">New notifications will appear here.</p></div><% } %>
+<% items.forEach(function (n) { %>
+  <article class="card notification <%= n.is_read ? '' : 'is-unread' %>">
+    <div><strong><%= n.title %></strong> <% if (!n.is_read) { %><span class="badge badge-info">New</span><% } %>
+      <p class="muted"><%= n.message %></p>
+      <small class="muted"><%= new Date(n.created_at).toLocaleString() %></small>
+      <% if (n.link) { %> · <a href="<%= n.link %>">Open</a><% } %></div>
+    <% if (!n.is_read) { %>
+      <form action="/notifications/<%= n.id %>/read" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="btn btn-outline btn-sm" type="submit">Mark as read</button></form>
+    <% } %>
+  </article>
+<% }) %>
+<%- include('../partials/footer') %>

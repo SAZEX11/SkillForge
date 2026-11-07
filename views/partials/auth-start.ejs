@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof title !== 'undefined' ? title + ' | SkillForge' : 'SkillForge' %></title>
+  <meta name="theme-color" content="#f2f3ee">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&display=swap">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body class="site">
+<div class="auth-shell">
+  <aside class="auth-aside">
+    <%- include('logo') %>
+    <div class="aside-copy">
+      <h2><%= asideTitle %></h2>
+      <p><%= asideText %></p>
+      <div class="report" aria-hidden="true">
+        <div class="kicker">Skill breakdown</div>
+        <ul class="skills">
+          <li><div class="skill-top"><strong>JavaScript</strong><span>Strong<em>84</em></span></div><div class="bar lv-strong"><i style="--w:84%;--i:0"></i></div></li>
+          <li><div class="skill-top"><strong>Data Structures</strong><span>Developing<em>66</em></span></div><div class="bar lv-developing"><i style="--w:66%;--i:1"></i></div></li>
+          <li><div class="skill-top"><strong>SQL</strong><span>Needs Improvement<em>47</em></span></div><div class="bar lv-needs"><i style="--w:47%;--i:2"></i></div></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+  <div class="auth-main">
+    <div class="auth-top">
+      <%- include('logo') %>
+      <% if (typeof topLink !== 'undefined' && topLink) { %><span><%= topLink.text %> <a href="<%= topLink.href %>"><%= topLink.label %></a></span><% } else { %><span></span><% } %>
+    </div>
+    <div class="auth-form-wrap">
+      <div class="auth-box">
+        <%- include('alerts') %>

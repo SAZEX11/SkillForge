@@ -1,0 +1,10 @@
+const express = require('express');
+const { requireAuth } = require('../middleware/auth');
+const { requireRole } = require('../middleware/role');
+const c = require('../controllers/roadmapController');
+const router = express.Router();
+router.use(requireAuth, requireRole('user'));
+router.get('/roadmap', c.show);
+router.post('/roadmap/generate', c.generate);
+router.post('/roadmap/items/:id/complete', c.completeItem);
+module.exports = router;

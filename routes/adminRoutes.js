@@ -1,0 +1,18 @@
+const express = require('express');
+const { requireAuth } = require('../middleware/auth');
+const { requireRole } = require('../middleware/role');
+const c = require('../controllers/adminController');
+const router = express.Router();
+router.use('/admin', requireAuth, requireRole('admin'));
+router.get('/admin', c.dashboard);
+router.get('/admin/users', c.users);
+router.get('/admin/users/:id', c.userDetails);
+router.post('/admin/users/:id/status', c.setStatus);
+router.post('/admin/users/:id/role', c.setRoles);
+router.get('/admin/roles', c.roles);
+router.get('/admin/categories', c.categories);
+router.post('/admin/categories', c.saveCategory);
+router.post('/admin/categories/:id', c.saveCategory);
+router.get('/admin/analytics', c.analytics);
+router.get('/admin/audit-logs', c.auditLogs);
+module.exports = router;

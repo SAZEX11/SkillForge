@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<%- include('../partials/content-nav') %>
+<section class="card narrow"><h1><%= r.id ? 'Edit resource' : 'New resource' %></h1>
+<form class="auth-form" action="<%= r.id ? '/content/resources/' + r.id : '/content/resources' %>" method="POST">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="form-group"><label for="title">Title</label><input id="title" name="title" value="<%= r.title %>" required maxlength="200"></div>
+  <div class="form-group"><label for="skill_id">Skill</label><select id="skill_id" name="skill_id" required><option value="">Choose a skill</option><% skills.forEach(function (s) { %><option value="<%= s.id %>" <%= Number(r.skill_id) === s.id ? 'selected' : '' %>><%= s.name %></option><% }) %></select></div>
+  <div class="form-group"><label for="resource_type">Type</label><select id="resource_type" name="resource_type"><% TYPES.forEach(function (t) { %><option <%= r.resource_type === t ? 'selected' : '' %>><%= t %></option><% }) %></select></div>
+  <div class="form-group"><label for="difficulty">Difficulty</label><select id="difficulty" name="difficulty"><% DIFFICULTIES.forEach(function (d) { %><option <%= r.difficulty === d ? 'selected' : '' %>><%= d %></option><% }) %></select></div>
+  <div class="form-group"><label for="url">URL</label><input id="url" type="url" name="url" value="<%= r.url %>" placeholder="https://" required></div>
+  <div class="form-group"><label for="description">Description</label><textarea id="description" name="description" rows="3"><%= r.description || '' %></textarea></div>
+  <button class="btn btn-primary" type="submit">Save resource</button><a class="btn btn-outline" href="/content/resources">Cancel</a>
+</form></section>
+<%- include('../partials/footer') %>

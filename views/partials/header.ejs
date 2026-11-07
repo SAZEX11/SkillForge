@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14243a">
+  <title><%= typeof title !== 'undefined' ? title + ' | SkillForge' : 'SkillForge' %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/assessment.css">
+  <link rel="stylesheet" href="/css/roadmap.css">
+</head>
+<body class="<%= currentUser ? 'signed-in' : 'public-site' %>">
+<% if (currentUser) { 
+  const isAdmin = currentUser.roles.includes('admin');
+  const isManager = !isAdmin && currentUser.roles.includes('content_manager');
+  const roleLabel = isAdmin ? 'Administrator' : isManager ? 'Content manager' : 'Learner';
+  const navGroups = isAdmin ? [
+    { title: 'Workspace', links: [
+      { label: 'Overview', href: '/admin', icon: 'grid' },
+      { label: 'User management', href: '/admin/users', icon: 'users' },
+      { label: 'Roles & access', href: '/admin/roles', icon: 'shield' },
+      { label: 'Analytics', href: '/admin/analytics', icon: 'chart' }
+    ]},
+    { title: 'Learning content', links: [
+      { label: 'Skills & categories', href: '/admin/categories', icon: 'layers' },
+      { label: 'Questions', href: '/content/questions', icon: 'clipboard' },
+      { label: 'Assessments', href: '/content/assessments', icon: 'book' },
+      { label: 'Resources', href: '/content/resources', icon: 'library' }
+    ]},
+    { title: 'System', links: [
+      { label: 'Audit logs', href: '/admin/audit-logs', icon: 'activity' }
+    ]}
+  ] : isManager ? [
+    { title: 'Workspace', links: [
+      { label: 'Overview', href: '/content', icon: 'grid' },
+      { label: 'Skills', href: '/content/skills', icon: 'layers' },
+      { label: 'Questions', href: '/content/questions', icon: 'clipboard' },
+      { label: 'Assessments', href: '/content/assessments', icon: 'book' },
+      { label: 'Resources', href: '/content/resources', icon: 'library' }
+    ]}
+  ] : [
+    { title: 'My learning', links: [
+      { label: 'Overview', href: '/dashboard', icon: 'grid' },
+      { label: 'Assessments', href: '/assessments', icon: 'clipboard' },
+      { label: 'Skill analysis', href: '/skill-analysis', icon: 'chart' },
+      { label: 'My roadmap', href: '/roadmap', icon: 'route' },
+      { label: 'Learning resources', href: '/resources', icon: 'library' }
+    ]},
+    { title: 'My activity', links: [
+      { label: 'Progress', href: '/progress', icon: 'trending' },
+      { label: 'Achievements', href: '/achievements', icon: 'award' },
+      { label: 'Notifications', href: '/notifications', icon: 'bell' }
+    ]}
+  ];
+%>
+<div class="app-shell">
+  <aside class="sidebar" id="appSidebar" aria-label="Main navigation">
+    <a class="brand" href="/" aria-label="SkillForge Home">
+    <img src="/images/logo.png" alt="SkillForge Logo">
+   </a>
+    <div class="sidebar-profile">
+      <div class="avatar"><%= (currentUser.name || 'U').trim().charAt(0).toUpperCase() %></div>
+      <div class="profile-copy"><strong><%= currentUser.name %></strong><span><%= roleLabel %></span></div>
+    </div>
+    <% navGroups.forEach(function(group) { %>
+      <div class="nav-group"><p class="nav-heading"><%= group.title %></p>
+        <% group.links.forEach(function(link) { %>
+          <a class="side-link <%= path === link.href || (link.href !== '/admin' && link.href !== '/content' && link.href !== '/dashboard' && path.startsWith(link.href + '/')) ? 'active' : '' %>" href="<%= link.href %>">
+            <span class="side-icon" aria-hidden="true">
+              <% if (link.icon === 'grid') { %><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              <% } else if (link.icon === 'users') { %><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <% } else if (link.icon === 'shield') { %><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
+              <% } else if (link.icon === 'chart') { %><svg viewBox="0 0 24 24"><path d="M3 3v18h18M8 15l4-4 4 3 5-7"/></svg>
+              <% } else if (link.icon === 'layers') { %><svg viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
+              <% } else if (link.icon === 'clipboard') { %><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 4.5V3h6v1.5M9 11h6M9 15h6"/></svg>
+              <% } else if (link.icon === 'book') { %><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+              <% } else if (link.icon === 'library') { %><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M8 7h8M8 11h6"/></svg>
+              <% } else if (link.icon === 'activity') { %><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <% } else if (link.icon === 'route') { %><svg viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8a3 3 0 0 0 0-6h-2a3 3 0 0 1 0-6h3"/><circle cx="18" cy="4" r="3"/></svg>
+              <% } else if (link.icon === 'trending') { %><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"/></svg>
+              <% } else if (link.icon === 'award') { %><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="m8.2 13-1.2 9 5-3 5 3-1.2-9"/></svg>
+              <% } else if (link.icon === 'bell') { %><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><% } %>
+            </span><span><%= link.label %></span>
+          </a>
+        <% }) %>
+      </div>
+    <% }) %>
+    <div class="sidebar-bottom">
+      <% if (!isAdmin && !isManager) { %><a class="side-link" href="/profile"><span class="side-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span>My profile</span></a><a class="side-link" href="/settings"><span class="side-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.7 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.6-1.4-2.4 1.4-1.1a7 7 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.7-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.7 1l1.7-.6 1.4 2.4-1.4 1.1a7 7 0 0 1 0 2Z"/></svg></span><span>Settings</span></a><% } %>
+      <form action="/logout" method="POST" class="sidebar-logout"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button type="submit"><span class="side-icon"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg></span>Sign out</button></form>
+    </div>
+  </aside>
+  <div class="sidebar-scrim" id="sidebarScrim"></div>
+  <div class="app-content">
+    <header class="app-topbar">
+      <button class="menu-toggle" id="sidebarToggle" type="button" aria-label="Open navigation" aria-controls="appSidebar" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="topbar-context"><strong><%= title || 'Workspace' %></strong><span>Welcome back, <%= currentUser.name.split(' ')[0] %></span></div>
+      <div class="topbar-right"><span class="topbar-role"><%= roleLabel %></span><div class="topbar-avatar"><%= (currentUser.name || 'U').trim().charAt(0).toUpperCase() %></div></div>
+    </header>
+    <main class="page app-page">
+      <%- include('alerts') %>
+<% } else { %>
+<header class="navbar">
+  <a class="logo" href="/" aria-label="SkillForge Home">
+    <img src="/images/logo.png" alt="SkillForge Logo">
+  </a>
+  <nav class="nav-links"><a href="/features">Features</a><a href="/how-it-works">How it works</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/login">Log in</a><a href="/register" class="btn btn-primary btn-sm">Get started</a></nav>
+</header>
+<main class="page"><%- include('alerts') %>
+<% } %>

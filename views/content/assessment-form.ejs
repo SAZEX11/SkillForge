@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+<%- include('../partials/content-nav') %>
+<section class="card"><h1><%= a.id ? 'Edit assessment' : 'New assessment' %></h1>
+<form class="auth-form" action="<%= a.id ? '/content/assessments/' + a.id : '/content/assessments' %>" method="POST">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="form-group"><label for="title">Title</label><input id="title" name="title" value="<%= a.title %>" required maxlength="200"></div>
+  <div class="form-group"><label for="description">Description</label><textarea id="description" name="description" rows="3"><%= a.description || '' %></textarea></div>
+  <div class="form-group"><label for="time_limit">Time limit (minutes)</label><input id="time_limit" type="number" name="time_limit" value="<%= a.time_limit %>" min="1" max="300" required></div>
+  <button class="btn btn-primary" type="submit">Save details</button><a class="btn btn-outline" href="/content/assessments">Back</a>
+</form></section>
+<% if (a.id) { %>
+<section class="card"><div class="page-head"><h2>Status: <span class="badge"><%= a.status %></span></h2>
+  <form class="inline-form" action="/content/assessments/<%= a.id %>/status" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if (a.status !== 'published') { %><button class="btn btn-primary btn-sm" name="status" value="published" type="submit">Publish</button><% } else { %><button class="btn btn-outline btn-sm" name="status" value="draft" type="submit">Unpublish</button><% } %>
+    <% if (a.status !== 'archived') { %><button class="btn btn-outline btn-sm" name="status" value="archived" type="submit" data-confirm="Archive this assessment?">Archive</button><% } %></form></div></section>
+<section class="card"><h2>Questions (<%= items.length %>)</h2>
+  <% if (!items.length) { %><p class="muted">No questions yet. Add some below.</p><% } %>
+  <% items.forEach(function (it) { const base = '/content/assessments/' + a.id + '/questions/' + it.question_id; %>
+    <div class="resource-line"><div><strong><%= it.question_order %>.</strong> <%= it.text %> <span class="chip"><%= it.difficulty %></span></div>
+      <div class="row-actions">
+        <form action="<%= base %>/marks" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><input class="marks-input" type="number" name="marks" value="<%= it.marks %>" min="0.5" step="0.5" aria-label="Marks"><button class="btn btn-outline btn-sm" type="submit">Set marks</button></form>
+        <form action="<%= base %>/up" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-outline btn-sm" type="submit" aria-label="Move up">↑</button></form>
+        <form action="<%= base %>/down" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-outline btn-sm" type="submit" aria-label="Move down">↓</button></form>
+        <form action="<%= base %>/remove" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-outline btn-sm" type="submit" data-confirm="Remove this question from the assessment?">Remove</button></form></div></div>
+  <% }) %>
+  <form class="filters" action="/content/assessments/<%= a.id %>/questions" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <select name="question_id" required aria-label="Question to add"><option value="">Choose a question to add</option><% available.forEach(function (q) { %><option value="<%= q.id %>"><%= q.text.slice(0, 90) %></option><% }) %></select>
+    <input type="number" name="marks" value="1" min="0.5" step="0.5" aria-label="Marks"><button class="btn btn-primary" type="submit">Add question</button></form>
+</section>
+<% } %>
+<%- include('../partials/footer') %>

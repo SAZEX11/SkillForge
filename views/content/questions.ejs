@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<%- include('../partials/content-nav') %>
+<div class="page-head"><h1>Questions</h1><a class="btn btn-primary" href="/content/questions/new">New question</a></div>
+<form class="card filters" method="GET" action="/content/questions">
+  <input type="search" name="q" value="<%= filters.q %>" placeholder="Search questions" aria-label="Search">
+  <select name="skill" aria-label="Skill"><option value="">All skills</option><% skills.forEach(function (s) { %><option value="<%= s.id %>" <%= filters.skill === s.id ? 'selected' : '' %>><%= s.name %></option><% }) %></select>
+  <select name="difficulty" aria-label="Difficulty"><option value="">Any difficulty</option><% DIFFICULTIES.forEach(function (d) { %><option <%= filters.difficulty === d ? 'selected' : '' %>><%= d %></option><% }) %></select>
+  <select name="status" aria-label="Status"><option value="">Any status</option><option <%= filters.status === 'active' ? 'selected' : '' %>>active</option><option <%= filters.status === 'inactive' ? 'selected' : '' %>>inactive</option></select>
+  <button class="btn btn-primary" type="submit">Filter</button><a class="btn btn-outline" href="/content/questions">Reset</a>
+</form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Question</th><th>Skills</th><th>Difficulty</th><th>Status</th><th></th></tr></thead><tbody>
+  <% rows.forEach(function (r) { %><tr><td><%= r.text %></td><td><%= r.skills %></td><td><%= r.difficulty %></td>
+    <td><span class="badge <%= r.status === 'active' ? 'badge-success' : '' %>"><%= r.status %></span></td>
+    <td class="row-actions"><a class="btn btn-outline btn-sm" href="/content/questions/<%= r.id %>/edit">Edit</a>
+      <form action="/content/questions/<%= r.id %>/status" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="btn btn-outline btn-sm" type="submit" data-confirm="<%= r.status === 'active' ? 'Deactivate this question?' : 'Reactivate this question?' %>"><%= r.status === 'active' ? 'Deactivate' : 'Activate' %></button></form></td></tr><% }) %>
+  <% if (!rows.length) { %><tr><td colspan="5" class="muted">No questions match.</td></tr><% } %></tbody></table></section>
+<%- include('../partials/pagination') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+<h1>Assessments</h1>
+<p class="muted">Pick a challenge and see where you stand.</p>
+<% if (!assessments.length) { %>
+  <div class="card empty-state"><h2>Your next challenge is waiting.</h2><p class="muted">No assessments are published yet.</p></div>
+<% } %>
+<section class="assessment-grid">
+  <% assessments.forEach(function (a) { %>
+    <article class="card assessment-card">
+      <h2><%= a.title %></h2>
+      <p class="muted"><%= a.description %></p>
+      <p class="meta"><%= a.question_count %> questions · <%= a.time_limit %> min</p>
+      <div class="chips"><% a.skills.forEach(function (s) { %><span class="chip"><%= s %></span><% }) %></div>
+      <a class="btn btn-primary" href="/assessments/<%= a.id %>">View details</a>
+    </article>
+  <% }) %>
+</section>
+<%- include('../partials/footer') %>

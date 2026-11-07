@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<section class="card narrow">
+  <h1>Your Profile</h1>
+  <p class="muted"><%= profile.email %> · Member since <%= new Date(profile.created_at).toLocaleDateString() %></p>
+  <form class="auth-form" action="/profile" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="form-group"><label for="name">Full name</label><input id="name" name="name" value="<%= profile.name %>" required maxlength="120"></div>
+    <div class="form-group"><label for="career_goal">Career goal</label>
+      <select id="career_goal" name="career_goal" required>
+        <% goals.forEach(function (g) { %><option value="<%= g %>" <%= profile.career_goal === g ? 'selected' : '' %>><%= g %></option><% }) %></select></div>
+    <div class="form-group"><label for="bio">Bio</label><textarea id="bio" name="bio" rows="4" maxlength="500"><%= profile.bio || '' %></textarea></div>
+    <button class="btn btn-primary" type="submit">Save changes</button>
+  </form>
+</section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof title !== 'undefined' ? title + ' | SkillForge' : 'SkillForge' %></title>
+  <meta name="description" content="Take timed skill assessments, see a score for every skill, and follow a roadmap built from your gaps.">
+  <meta name="theme-color" content="#f2f3ee">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&display=swap">
+  <link rel="stylesheet" href="/css/site.css">
+  <% if (typeof landing !== 'undefined' && landing) { %><script src="/js/landing.js"></script><% } %>
+</head>
+<body class="site">
+<%
+  var home = '/dashboard';
+  if (currentUser) {
+    if (currentUser.roles.includes('admin')) home = '/admin';
+    else if (currentUser.roles.includes('content_manager')) home = '/content';
+  }
+%>
+<header class="sf-header">
+  <div class="wrap">
+    <%- include('logo') %>
+    <nav class="sf-nav" aria-label="Main navigation">
+      <% if (typeof landing !== 'undefined' && landing) { %>
+        <a class="hide-sm" href="#how-it-works">How it works</a>
+        <a class="hide-sm" href="#goals">Career goals</a>
+      <% } %>
+      <div class="sf-actions">
+        <% if (currentUser) { %>
+          <a class="sf-btn sf-btn-solid sf-btn-sm" href="<%= home %>">Go to dashboard</a>
+        <% } else { %>
+          <a class="sf-login" href="/login">Log in</a>
+          <a class="sf-btn sf-btn-solid sf-btn-sm" href="/register">Sign up</a>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>

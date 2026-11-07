@@ -1,0 +1,14 @@
+const express = require('express');
+const { requireAuth } = require('../middleware/auth');
+const { requireRole } = require('../middleware/role');
+const c = require('../controllers/assessmentController');
+const router = express.Router();
+router.use(requireAuth, requireRole('user'));
+router.get('/assessments', c.list);
+router.get('/assessments/:id', c.detail);
+router.post('/assessments/:id/start', c.start);
+router.get('/attempts/:id', c.take);
+router.post('/attempts/:id/answer', c.answer);
+router.post('/attempts/:id/submit', c.submit);
+router.get('/attempts/:id/result', c.result);
+module.exports = router;

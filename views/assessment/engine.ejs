@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+<section class="exam" id="exam" data-attempt-id="<%= attempt.id %>" data-seconds-left="<%= secondsLeft %>" data-csrf="<%= csrfToken %>">
+  <div class="exam-top card">
+    <div>
+      <h1><%= attempt.title %></h1>
+      <span class="muted" id="exam-position">Question 1 of <%= questions.length %></span>
+    </div>
+    <div class="timer" id="timer" role="timer" aria-live="off">--:--</div>
+  </div>
+  <div class="progress"><div class="progress-bar" id="exam-progress" style="width: 0%"></div></div>
+
+  <% questions.forEach(function (q, i) { %>
+    <fieldset class="card question" data-question-id="<%= q.id %>" <%= i === 0 ? '' : 'hidden' %>>
+      <legend><span class="muted"><%= q.marks %> mark<%= q.marks > 1 ? 's' : '' %></span></legend>
+      <h2><%= q.text %></h2>
+      <% q.options.forEach(function (o) { %>
+        <label class="option">
+          <input type="radio" name="q<%= q.id %>" value="<%= o.id %>" <%= q.selected_option_id === o.id ? 'checked' : '' %>>
+          <span><%= o.text %></span>
+        </label>
+      <% }) %>
+    </fieldset>
+  <% }) %>
+
+  <div class="exam-nav">
+    <button class="btn btn-outline" type="button" id="prev-btn">Previous</button>
+    <button class="btn btn-primary" type="button" id="next-btn">Next</button>
+    <form action="/attempts/<%= attempt.id %>/submit" method="POST" id="submit-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="btn btn-secondary" type="submit" id="submit-btn" hidden>Submit assessment</button>
+    </form>
+  </div>
+  <p class="muted" id="save-status" aria-live="polite"></p>
+</section>
+<script src="/js/assessment.js"></script>
+<%- include('../partials/footer') %>

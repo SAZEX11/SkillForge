@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+<section class="card result-hero">
+  <div class="score-circle"><strong><%= Math.round(attempt.score) %>%</strong></div>
+  <h1><%= level.label %> Performance</h1>
+  <p class="muted"><%= attempt.title %></p>
+  <div class="stat-grid">
+    <div class="card stat"><span class="stat-label">Correct</span><strong><%= correct %></strong></div>
+    <div class="card stat"><span class="stat-label">Incorrect</span><strong><%= incorrect %></strong></div>
+    <div class="card stat"><span class="stat-label">Total Questions</span><strong><%= review.length %></strong></div>
+    <div class="card stat"><span class="stat-label">Time Taken</span><strong><%= minutes %>m <%= seconds %>s</strong></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Skill breakdown</h2>
+  <% breakdown.forEach(function (s) { %>
+    <div class="skill-row">
+      <span class="skill-name"><%= s.name %></span>
+      <div class="progress"><div class="progress-bar" style="width: <%= s.score %>%"></div></div>
+      <span class="badge"><%= s.score %>%</span>
+    </div>
+  <% }) %>
+  <% if (strongest && weakest) { %>
+    <p class="recommendation">You are strongest in <strong><%= strongest.name %></strong>.
+      <% if (weakest.score < 80) { %>Focus next on <strong><%= weakest.name %></strong> to raise your overall level.<% } else { %>Keep going and try a harder assessment.<% } %></p>
+  <% } %>
+</section>
+
+<section class="card">
+  <h2>Answer review</h2>
+  <% review.forEach(function (r, i) { %>
+    <div class="review-item <%= r.is_correct ? 'is-correct' : 'is-wrong' %>">
+      <strong><%= i + 1 %>. <%= r.text %></strong>
+      <p>Your answer: <%= r.selected || 'No answer' %> <span class="badge"><%= r.is_correct ? '✓ Correct' : '✗ Incorrect' %></span></p>
+      <% if (!r.is_correct) { %><p>Correct answer: <%= r.correct %></p><% } %>
+      <% if (r.explanation) { %><p class="muted"><%= r.explanation %></p><% } %>
+    </div>
+  <% }) %>
+</section>
+
+<div class="exam-nav">
+  <form action="/assessments/<%= attempt.assessment_id %>/start" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="btn btn-primary" type="submit">Retake Assessment</button>
+  </form>
+  <a class="btn btn-outline" href="/dashboard">Back to dashboard</a>
+</div>
+<%- include('../partials/footer') %>

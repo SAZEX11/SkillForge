@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-nav') %>
+<h1>Audit Logs</h1>
+<form class="card filters" method="GET" action="/admin/audit-logs"><input type="search" name="q" value="<%= filters.q %>" placeholder="Search user, action or entity" aria-label="Search">
+  <select name="action" aria-label="Action"><option value="">All actions</option><% actions.forEach(function (a) { %><option <%= filters.action === a ? 'selected' : '' %>><%= a %></option><% }) %></select>
+  <button class="btn btn-primary" type="submit">Filter</button><a class="btn btn-outline" href="/admin/audit-logs">Reset</a></form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Date</th><th>User</th><th>Action</th><th>Entity</th><th>ID</th><th>Details</th></tr></thead><tbody>
+  <% rows.forEach(function (r) { %><tr><td><%= new Date(r.created_at).toLocaleString() %></td><td><%= r.actor || 'System' %></td><td><span class="badge"><%= r.action %></span></td>
+    <td><%= r.entity_type %></td><td><%= r.entity_id === null ? '–' : r.entity_id %></td><td class="muted"><%= r.new_data ? JSON.stringify(r.new_data).slice(0, 120) : '–' %></td></tr><% }) %>
+  <% if (!rows.length) { %><tr><td colspan="6" class="muted">No log entries match.</td></tr><% } %></tbody></table></section>
+<%- include('../partials/pagination') %>
+<%- include('../partials/footer') %>

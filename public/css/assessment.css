@@ -1,0 +1,235 @@
+.assessment-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: 20px;
+
+}
+
+.chips {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin: 12px 0 16px;
+
+}
+
+.chip {
+
+  padding: 3px 10px;
+
+  border-radius: 999px;
+
+  background: var(--surface-soft);
+
+  border: 1px solid var(--border);
+
+  font-size: 0.8rem;
+
+}
+
+.narrow {
+
+  max-width: 680px;
+
+  margin: 0 auto;
+
+}
+
+.btn-secondary {
+
+  background: var(--secondary);
+
+  color: var(--text-primary);
+
+  border: 1px solid var(--secondary);
+
+}
+
+.btn-secondary:hover {
+
+  background: var(--secondary-dark);
+
+}
+
+.exam {
+
+  max-width: 760px;
+
+  margin: 0 auto;
+
+}
+
+.exam-top {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+}
+
+.timer {
+
+  font-size: 1.6rem;
+
+  font-weight: 800;
+
+  font-variant-numeric: tabular-nums;
+
+}
+
+.timer-low {
+
+  color: var(--danger);
+
+}
+
+.question {
+
+  margin-top: 20px;
+
+}
+
+.option {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 10px;
+
+  padding: 14px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+}
+
+.option:hover,
+
+.option:focus-within {
+
+  border-color: var(--primary);
+
+  background: var(--surface-soft);
+
+}
+
+.exam-nav {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin: 20px 0;
+
+}
+
+.score-circle {
+
+  display: grid;
+
+  place-items: center;
+
+  width: 150px;
+
+  height: 150px;
+
+  margin: 0 auto 16px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #F71863, #FEBA27);
+
+  color: #ffffff;
+
+  font-size: 2.2rem;
+
+}
+
+.result-hero {
+
+  text-align: center;
+
+}
+
+.review-item {
+
+  padding: 12px 14px;
+
+  margin-top: 12px;
+
+  border-left: 4px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--surface-soft);
+
+}
+
+.review-item.is-correct {
+
+  border-left-color: var(--success);
+
+}
+
+.review-item.is-wrong {
+
+  border-left-color: var(--danger);
+
+}
+
+.recommendation {
+
+  margin-top: 16px;
+
+  padding: 12px 14px;
+
+  border-radius: var(--radius-md);
+
+  background: var(--surface-soft);
+
+}
+
+.empty-state {
+
+  text-align: center;
+
+}
+
+@media (max-width: 576px) {
+
+  .exam-top {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+  }
+
+  .exam-nav .btn {
+
+    flex: 1;
+
+  }
+
+}

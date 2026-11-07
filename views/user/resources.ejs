@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+<h1>Learning Resources</h1>
+<form class="filters card" method="GET" action="/resources">
+  <input type="search" name="q" value="<%= filters.q %>" placeholder="Search resources" aria-label="Search resources">
+  <select name="skill" aria-label="Skill"><option value="">All skills</option>
+    <% skills.forEach(function (s) { %><option value="<%= s.id %>" <%= filters.skill === s.id ? 'selected' : '' %>><%= s.name %></option><% }) %></select>
+  <select name="difficulty" aria-label="Difficulty"><option value="">Any difficulty</option>
+    <% DIFFICULTIES.forEach(function (d) { %><option value="<%= d %>" <%= filters.difficulty === d ? 'selected' : '' %>><%= d %></option><% }) %></select>
+  <select name="type" aria-label="Type"><option value="">Any type</option>
+    <% TYPES.forEach(function (t) { %><option value="<%= t %>" <%= filters.type === t ? 'selected' : '' %>><%= t %></option><% }) %></select>
+  <button class="btn btn-primary" type="submit">Filter</button>
+  <a class="btn btn-outline" href="/resources">Reset</a>
+</form>
+<% if (!resources.length) { %><div class="card empty-state"><h2>No resources match</h2><p class="muted">Try a different search or reset the filters.</p></div><% } %>
+<section class="assessment-grid">
+  <% resources.forEach(function (r) { %>
+    <article class="card">
+      <div class="chips"><span class="chip"><%= r.skill %></span><span class="chip"><%= r.resource_type %></span><span class="chip"><%= r.difficulty %></span></div>
+      <h2><%= r.title %></h2>
+      <p class="muted"><%= r.description %></p>
+      <a class="btn btn-primary btn-sm" href="/resources/<%= r.id %>">View resource</a>
+    </article>
+  <% }) %>
+</section>
+<%- include('../partials/pagination') %>
+<%- include('../partials/footer') %>

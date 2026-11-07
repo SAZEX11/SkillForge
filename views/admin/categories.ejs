@@ -1,0 +1,10 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-nav') %>
+<h1>Skill Categories</h1>
+<form class="card filters" action="/admin/categories" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input name="name" placeholder="New category name" required maxlength="100" aria-label="Name"><input name="description" placeholder="Description" aria-label="Description"><button class="btn btn-primary" type="submit">Add category</button></form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Name</th><th>Description</th><th>Skills</th><th></th></tr></thead><tbody>
+  <% rows.forEach(function (c) { %><tr><form action="/admin/categories/<%= c.id %>" method="POST" id="cat-<%= c.id %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>"></form>
+    <td><input form="cat-<%= c.id %>" name="name" value="<%= c.name %>" required aria-label="Name"></td><td><input form="cat-<%= c.id %>" name="description" value="<%= c.description || '' %>" aria-label="Description"></td>
+    <td><%= c.skills %></td><td><button form="cat-<%= c.id %>" class="btn btn-outline btn-sm" type="submit">Save</button></td></tr><% }) %></tbody></table></section>
+<%- include('../partials/footer') %>

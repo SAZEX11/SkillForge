@@ -1,0 +1,194 @@
+.auth-card {
+
+  max-width: 440px;
+
+  margin: 32px auto;
+
+  padding: 32px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-md);
+
+}
+
+.auth-form p a {
+
+  color: var(--primary);
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+}
+
+.form-group {
+
+  margin-bottom: 16px;
+
+}
+
+.form-group label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-weight: 600;
+
+  color: var(--text-primary);
+
+}
+
+.form-group input,
+
+.form-group select {
+
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: var(--text-primary);
+
+  outline: none;
+
+  transition: all 0.2s ease;
+
+}
+
+.form-group input:focus,
+
+.form-group select:focus {
+
+  border-color: var(--primary);
+
+  box-shadow: 0 0 0 3px rgba(247, 24, 99, 0.12);
+
+}
+
+/* =========================================
+   SKILLFORGE INTERACTIVE PANDA
+========================================= */
+
+.auth-panda-layout {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 100px auto 40px;
+}
+
+/* Panda positioning */
+
+.panda-mascot {
+    position: absolute;
+    width: 210px;
+    height: 155px;
+    top: -105px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.panda-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Panda paws */
+
+.panda-paw {
+    transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-box: view-box;
+}
+
+/* Normal position */
+
+.panda-paw-left {
+    transform: translate(0, 0) rotate(0deg);
+    transform-origin: 100px 175px;
+}
+
+.panda-paw-right {
+    transform: translate(0, 0) rotate(0deg);
+    transform-origin: 220px 175px;
+}
+
+/* Covering eyes */
+
+.panda-mascot.is-covering .panda-paw-left {
+    transform: translate(29px, -54px) rotate(-25deg);
+}
+
+.panda-mascot.is-covering .panda-paw-right {
+    transform: translate(-29px, -54px) rotate(25deg);
+}
+
+/* Panda eyes */
+
+.panda-eyes {
+    transition: opacity 0.2s ease;
+}
+
+/* Login and registration card */
+
+.auth-panda-layout .auth-card {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 45px 35px 35px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid rgba(20, 36, 58, 0.08);
+    box-shadow: 0 15px 45px rgba(20, 36, 58, 0.10);
+}
+
+/* Focused inputs */
+
+.auth-panda-layout input:focus {
+    outline: none;
+}
+
+/* Mobile layout */
+
+@media (max-width: 600px) {
+
+    .auth-panda-layout {
+        width: calc(100% - 32px);
+        margin-top: 90px;
+    }
+
+    .panda-mascot {
+        width: 175px;
+        height: 130px;
+        top: -88px;
+    }
+
+    .auth-panda-layout .auth-card {
+        padding: 38px 22px 25px;
+        border-radius: 15px;
+    }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .panda-paw,
+    .panda-eyes {
+        transition: none;
+    }
+}

@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-nav') %>
+<section class="card"><div class="page-head"><div><h1><%= u.name %></h1><p class="muted"><%= u.email %> · Goal: <%= u.career_goal || 'Not set' %> · Joined <%= new Date(u.created_at).toLocaleDateString() %> · Last login <%= u.last_login_at ? new Date(u.last_login_at).toLocaleString() : 'never' %></p></div>
+  <form action="/admin/users/<%= u.id %>/status" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <span class="badge <%= u.status === 'active' ? 'badge-success' : 'badge-danger' %>"><%= u.status %></span>
+    <% if (!isSelf) { %><button class="btn btn-outline btn-sm" name="status" value="<%= u.status === 'active' ? 'inactive' : 'active' %>" type="submit" data-confirm="<%= u.status === 'active' ? 'Deactivate this user? They will be signed out.' : 'Reactivate this user?' %>"><%= u.status === 'active' ? 'Deactivate' : 'Activate' %></button><% } %></form></div>
+  <h2>Roles</h2>
+  <form class="filters" action="/admin/users/<%= u.id %>/role" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% ROLES.forEach(function (r) { %><label class="chip-check"><input type="checkbox" name="roles" value="<%= r %>" <%= userRoles.includes(r) ? 'checked' : '' %> <%= r === 'user' ? 'disabled' : '' %>> <%= r %></label><% }) %>
+    <button class="btn btn-primary btn-sm" type="submit" data-confirm="Change this user's roles?">Save roles</button></form></section>
+<section class="card"><h2>Skill performance</h2><% if (!skills.length) { %><p class="muted">No assessed skills yet.</p><% } %>
+  <%- include('../partials/bars', { rows: skills.map(function (s) { return { label: s.name, value: Math.round(s.score) }; }), suffix: '%' }) %></section>
+<section class="card"><h2>Assessment history</h2><% if (!attempts.length) { %><p class="muted">No attempts yet.</p><% } %>
+  <% attempts.forEach(function (a) { %><div class="activity-row"><span><%= a.title %> <span class="badge"><%= a.status %></span></span><span class="muted"><%= a.score === null ? '–' : a.score + '%' %> · <%= new Date(a.started_at).toLocaleDateString() %></span></div><% }) %></section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<h1>Your Progress</h1>
+<section class="stat-grid">
+  <div class="card stat"><span class="stat-label">Roadmap Progress</span><strong><%= percent %>%</strong></div>
+  <div class="card stat"><span class="stat-label">Items Completed</span><strong><%= done %> / <%= total %></strong></div>
+  <div class="card stat"><span class="stat-label">Current Streak</span><strong><%= streak %> day<%= streak === 1 ? '' : 's' %></strong></div>
+  <div class="card stat"><span class="stat-label">Assessments Taken</span><strong><%= attempts.length %></strong></div>
+</section>
+<section class="card"><h2>Weekly activity</h2>
+  <div class="week-bars">
+    <% week.forEach(function (d) { %>
+      <div class="week-col"><span class="muted"><%= d.n %></span>
+        <div class="week-bar" style="height: <%= Math.round(d.n / maxWeek * 100) %>px"></div>
+        <span class="muted"><%= d.label %></span></div>
+    <% }) %>
+  </div></section>
+<section class="card"><h2>Assessment improvement</h2>
+  <% if (!attempts.length) { %><p class="muted">Complete an assessment to start tracking.</p><% } %>
+  <% attempts.forEach(function (a) { %>
+    <div class="skill-row"><span class="skill-name"><%= a.title %></span>
+      <div class="progress"><div class="progress-bar" style="width: <%= a.score %>%"></div></div>
+      <span class="badge"><%= a.score %>% · <%= new Date(a.completed_at).toLocaleDateString() %></span></div>
+  <% }) %></section>
+<section class="card"><h2>Skill improvement</h2>
+  <% if (!skills.length) { %><p class="muted">Retake an assessment to compare against your earlier scores.</p><% } %>
+  <% skills.forEach(function (s) { const d = Math.round(s.score - s.previous_score); %>
+    <div class="activity-row"><span><%= s.name %></span>
+      <span class="badge <%= d > 0 ? 'badge-success' : d < 0 ? 'badge-danger' : '' %>"><%= Math.round(s.previous_score) %>% → <%= Math.round(s.score) %>% (<%= d >= 0 ? '+' : '' %><%= d %>)</span></div>
+  <% }) %></section>
+<%- include('../partials/footer') %>

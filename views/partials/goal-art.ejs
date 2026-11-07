@@ -1,0 +1,62 @@
+<% if (art === 'frontend') { %>
+<svg viewBox="0 0 320 200" role="img" aria-label="Browser window with a page layout">
+  <rect x="38" y="24" width="244" height="156" rx="12" fill="#fff"/>
+  <path d="M38 36a12 12 0 0 1 12-12h220a12 12 0 0 1 12 12v14H38z" fill="#0c3a2d"/>
+  <circle cx="56" cy="37" r="4" fill="#f0a30a"/><circle cx="69" cy="37" r="4" fill="#fff" opacity=".6"/><circle cx="82" cy="37" r="4" fill="#fff" opacity=".6"/>
+  <rect x="58" y="66" width="112" height="14" rx="4" fill="#0c3a2d"/>
+  <rect x="58" y="88" width="136" height="7" rx="3.5" fill="#c9cec3"/><rect x="58" y="101" width="104" height="7" rx="3.5" fill="#c9cec3"/>
+  <rect x="58" y="122" width="72" height="24" rx="12" fill="#f0a30a"/>
+  <rect x="196" y="62" width="70" height="68" rx="9" fill="#cfe3d8"/><circle cx="222" cy="86" r="9" fill="#1f7a55"/><path d="M196 130l26-24 22 18 14-12 8 8v10z" fill="#1f7a55" opacity=".85"/>
+  <rect x="58" y="156" width="64" height="10" rx="5" fill="#e4e7de"/><rect x="130" y="156" width="64" height="10" rx="5" fill="#e4e7de"/><rect x="202" y="156" width="64" height="10" rx="5" fill="#e4e7de"/>
+  <g class="art-cursor"><path d="M120 128l0 20 5-5 4 9 4-2-4-9 7 0z" fill="#11181a" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></g>
+</svg>
+<% } else if (art === 'backend') { %>
+<svg viewBox="0 0 320 200" role="img" aria-label="Server rack with status lights">
+  <% [0,1,2].forEach(function (i) { var y = 26 + i * 52; %>
+  <rect x="62" y="<%= y %>" width="196" height="42" rx="9" fill="#fff"/>
+  <rect x="76" y="<%= y + 13 %>" width="84" height="6" rx="3" fill="#c9cec3"/><rect x="76" y="<%= y + 24 %>" width="56" height="6" rx="3" fill="#e4e7de"/>
+  <circle class="led" style="animation-delay:<%= i * 0.5 %>s" cx="224" cy="<%= y + 21 %>" r="5" fill="#1f7a55"/>
+  <circle class="led" style="animation-delay:<%= i * 0.5 + 0.9 %>s" cx="240" cy="<%= y + 21 %>" r="5" fill="#f0a30a"/>
+  <% }) %>
+  <path d="M62 68H40v52h22M258 120h22V68h-22" fill="none" stroke="#0c3a2d" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<% } else if (art === 'fullstack') { %>
+<svg viewBox="0 0 320 200" role="img" aria-label="Three stacked layers: interface, server and database">
+  <g>
+    <polygon points="70,128 160,158 250,128 250,140 160,170 70,140" fill="#c98a07"/>
+    <polygon points="160,98 250,128 160,158 70,128" fill="#f0a30a"/>
+  </g>
+  <g>
+    <polygon points="70,92 160,122 250,92 250,104 160,134 70,104" fill="#061f18"/>
+    <polygon points="160,62 250,92 160,122 70,92" fill="#0c3a2d"/>
+  </g>
+  <g class="art-bob">
+    <polygon points="70,56 160,86 250,56 250,68 160,98 70,68" fill="#9fc4b0"/>
+    <polygon points="160,26 250,56 160,86 70,56" fill="#cfe3d8"/>
+    <polygon points="160,40 196,52 160,64 124,52" fill="#fff" opacity=".85"/>
+  </g>
+</svg>
+<% } else if (art === 'software') { %>
+<svg viewBox="0 0 320 200" role="img" aria-label="Branching commit graph">
+  <path d="M30 110H290" stroke="#0c3a2d" stroke-width="4" stroke-linecap="round"/>
+  <path d="M90 110C110 110 110 56 140 56H200C226 56 226 110 246 110" fill="none" stroke="#1f7a55" stroke-width="4" stroke-linecap="round"/>
+  <path d="M120 110C140 110 140 156 168 156H214C236 156 236 110 256 110" fill="none" stroke="#f0a30a" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#fff" stroke="#0c3a2d" stroke-width="4"><circle cx="40" cy="110" r="9"/><circle cx="90" cy="110" r="9"/><circle cx="120" cy="110" r="9"/></g>
+  <g fill="#fff" stroke="#1f7a55" stroke-width="4"><circle cx="150" cy="56" r="9"/><circle cx="196" cy="56" r="9"/></g>
+  <g fill="#fff" stroke="#f0a30a" stroke-width="4"><circle cx="170" cy="156" r="9"/><circle cx="210" cy="156" r="9"/></g>
+  <circle class="art-pulse" cx="270" cy="110" r="11" fill="#0c3a2d"/><circle cx="270" cy="110" r="4" fill="#fff"/>
+</svg>
+<% } else { %>
+<svg viewBox="0 0 320 200" role="img" aria-label="Database feeding a bar chart">
+  <g>
+    <path d="M46 62v70c0 12 20 20 44 20s44-8 44-20V62" fill="#fff"/>
+    <ellipse cx="90" cy="62" rx="44" ry="16" fill="#0c3a2d"/>
+    <path d="M46 92c0 12 20 20 44 20s44-8 44-20M46 118c0 12 20 20 44 20s44-8 44-20" fill="none" stroke="#c9cec3" stroke-width="3"/>
+  </g>
+  <path class="art-flow" d="M142 100H186" stroke="#f0a30a" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 8" fill="none"/>
+  <rect x="196" y="40" width="94" height="120" rx="12" fill="#fff"/>
+  <rect x="210" y="108" width="14" height="38" rx="3" fill="#9fc4b0"/><rect x="232" y="84" width="14" height="62" rx="3" fill="#1f7a55"/><rect x="254" y="96" width="14" height="50" rx="3" fill="#9fc4b0"/>
+  <rect class="art-bar" x="276" y="60" width="0" height="0" fill="none"/>
+  <path d="M210 70l22-14 22 8 20-16" fill="none" stroke="#f0a30a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<% } %>

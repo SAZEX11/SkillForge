@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-nav') %>
+<h1>Platform Analytics</h1>
+<section class="stat-grid">
+  <div class="card stat"><span class="stat-label">New users (30d)</span><strong><%= t.new_users %></strong></div>
+  <div class="card stat"><span class="stat-label">Active users (30d)</span><strong><%= t.active_users %></strong></div>
+  <div class="card stat"><span class="stat-label">Attempts</span><strong><%= t.attempts %></strong></div>
+  <div class="card stat"><span class="stat-label">Average score</span><strong><%= t.avg_score === null ? '–' : t.avg_score + '%' %></strong></div>
+  <div class="card stat"><span class="stat-label">Attempt completion</span><strong><%= attemptRate %>%</strong></div>
+  <div class="card stat"><span class="stat-label">Roadmap completion</span><strong><%= roadmapRate %>%</strong></div>
+</section>
+<section class="card"><h2>Registrations (14 days)</h2><%- include('../partials/bars', { rows: regs }) %></section>
+<section class="card"><h2>Average score by assessment</h2><%- include('../partials/bars', { rows: byAssessment, suffix: '%' }) %></section>
+<section class="card"><h2>Most tested skills</h2><%- include('../partials/bars', { rows: tested }) %></section>
+<section class="card"><h2>Weakest platform skills (average score)</h2><%- include('../partials/bars', { rows: weakest, suffix: '%' }) %></section>
+<section class="card"><h2>Popular resources (in roadmaps)</h2><%- include('../partials/bars', { rows: resources }) %></section>
+<%- include('../partials/footer') %>

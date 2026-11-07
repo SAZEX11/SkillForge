@@ -1,0 +1,16 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-nav') %>
+<h1>Users</h1>
+<form class="card filters" method="GET" action="/admin/users">
+  <input type="search" name="q" value="<%= filters.q %>" placeholder="Search name or email" aria-label="Search">
+  <select name="status" aria-label="Status"><option value="">Any status</option><option <%= filters.status === 'active' ? 'selected' : '' %>>active</option><option <%= filters.status === 'inactive' ? 'selected' : '' %>>inactive</option></select>
+  <select name="role" aria-label="Role"><option value="">Any role</option><% ROLES.forEach(function (r) { %><option <%= filters.role === r ? 'selected' : '' %>><%= r %></option><% }) %></select>
+  <button class="btn btn-primary" type="submit">Filter</button><a class="btn btn-outline" href="/admin/users">Reset</a>
+</form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Roles</th><th>Status</th><th>Joined</th><th></th></tr></thead><tbody>
+  <% rows.forEach(function (u) { %><tr><td><%= u.name %></td><td><%= u.email %></td><td><%= u.roles %></td>
+    <td><span class="badge <%= u.status === 'active' ? 'badge-success' : 'badge-danger' %>"><%= u.status %></span></td>
+    <td><%= new Date(u.created_at).toLocaleDateString() %></td><td><a class="btn btn-outline btn-sm" href="/admin/users/<%= u.id %>">View</a></td></tr><% }) %>
+  <% if (!rows.length) { %><tr><td colspan="6" class="muted">No users match.</td></tr><% } %></tbody></table></section>
+<%- include('../partials/pagination') %>
+<%- include('../partials/footer') %>

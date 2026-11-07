@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+<section class="card narrow">
+  <h1><%= assessment.title %></h1>
+  <p class="muted"><%= assessment.description %></p>
+  <ul class="rules">
+    <li><%= assessment.question_count %> multiple-choice questions</li>
+    <li>You have <%= assessment.time_limit %> minutes. The timer starts when you press Start.</li>
+    <li>Answers are saved as you go. When time runs out your attempt is submitted automatically.</li>
+    <li>Correct answers and explanations appear after you submit.</li>
+  </ul>
+  <div class="chips"><% assessment.skills.forEach(function (s) { %><span class="chip"><%= s %></span><% }) %></div>
+  <form action="/assessments/<%= assessment.id %>/start" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="btn btn-primary btn-lg" type="submit">Start Assessment</button>
+    <a class="btn btn-outline btn-lg" href="/assessments">Back</a>
+  </form>
+</section>
+<%- include('../partials/footer') %>

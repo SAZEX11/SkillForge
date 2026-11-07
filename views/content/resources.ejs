@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<%- include('../partials/content-nav') %>
+<div class="page-head"><h1>Resources</h1><a class="btn btn-primary" href="/content/resources/new">New resource</a></div>
+<form class="card filters" method="GET" action="/content/resources"><input type="search" name="q" value="<%= filters.q %>" placeholder="Search resources" aria-label="Search">
+  <select name="skill" aria-label="Skill"><option value="">All skills</option><% skills.forEach(function (s) { %><option value="<%= s.id %>" <%= filters.skill === s.id ? 'selected' : '' %>><%= s.name %></option><% }) %></select>
+  <button class="btn btn-primary" type="submit">Filter</button><a class="btn btn-outline" href="/content/resources">Reset</a></form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Title</th><th>Skill</th><th>Type</th><th>Difficulty</th><th>Status</th><th></th></tr></thead><tbody>
+  <% rows.forEach(function (r) { %><tr><td><%= r.title %></td><td><%= r.skill %></td><td><%= r.resource_type %></td><td><%= r.difficulty %></td>
+    <td><span class="badge <%= r.status === 'active' ? 'badge-success' : '' %>"><%= r.status %></span></td>
+    <td class="row-actions"><a class="btn btn-outline btn-sm" href="/content/resources/<%= r.id %>/edit">Edit</a>
+      <form action="/content/resources/<%= r.id %>/status" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="btn btn-outline btn-sm" type="submit" data-confirm="Change this resource's status?"><%= r.status === 'active' ? 'Deactivate' : 'Activate' %></button></form></td></tr><% }) %>
+  <% if (!rows.length) { %><tr><td colspan="6" class="muted">No resources match.</td></tr><% } %></tbody></table></section>
+<%- include('../partials/pagination') %>
+<%- include('../partials/footer') %>

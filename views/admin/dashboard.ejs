@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<section class="welcome-panel admin-welcome"><div><span class="eyebrow">PLATFORM CONTROL CENTRE</span><h1>Good to see you, <%= currentUser.name.split(' ')[0] %>.</h1><p>Monitor platform health, manage access and keep the SkillForge learning experience running smoothly.</p><a class="action-primary" href="/admin/analytics">Open platform analytics <span>→</span></a></div><div class="welcome-art admin-art" aria-hidden="true"><div class="admin-orb">SF</div><div class="admin-orbit"></div><span class="admin-spark">✦</span></div></section>
+<section class="dashboard-section"><div class="section-heading"><div><span class="eyebrow">PLATFORM HEALTH</span><h2>Key indicators</h2></div><a class="text-link" href="/admin/analytics">Full analytics →</a></div>
+  <div class="stat-grid admin-stats">
+    <article class="metric-card"><span class="metric-icon blue-icon">♙</span><span class="stat-label">Total users</span><strong><%= t.users %></strong><small>Registered accounts</small></article>
+    <article class="metric-card"><span class="metric-icon green-icon">●</span><span class="stat-label">Active users</span><strong><%= t.active_users %></strong><small>Currently active accounts</small></article>
+    <article class="metric-card"><span class="metric-icon teal-icon">▤</span><span class="stat-label">Assessments</span><strong><%= t.assessments %></strong><small>Across all statuses</small></article>
+    <article class="metric-card"><span class="metric-icon amber-icon">↗</span><span class="stat-label">Average score</span><strong><%= t.avg_score === null ? '—' : Math.round(Number(t.avg_score)) + '%' %></strong><small>Completed assessment average</small></article>
+    <article class="metric-card"><span class="metric-icon violet-icon">☷</span><span class="stat-label">Question bank</span><strong><%= t.questions %></strong><small>Questions in the platform</small></article>
+    <article class="metric-card"><span class="metric-icon coral-icon">▣</span><span class="stat-label">Resources</span><strong><%= t.resources %></strong><small>Learning resources</small></article>
+  </div>
+</section>
+<section class="dashboard-section"><div class="section-heading"><div><span class="eyebrow">ADMINISTRATION</span><h2>Manage the platform</h2></div></div>
+  <div class="quick-grid admin-actions">
+    <a class="quick-card" href="/admin/users"><span class="quick-icon">♙</span><span><strong>User management</strong><small>Review accounts and account status.</small></span><b>→</b></a>
+    <a class="quick-card" href="/admin/roles"><span class="quick-icon">♢</span><span><strong>Roles & permissions</strong><small>Control who can access each workspace.</small></span><b>→</b></a>
+    <a class="quick-card" href="/admin/categories"><span class="quick-icon">◇</span><span><strong>Skill categories</strong><small>Organize the learning catalogue.</small></span><b>→</b></a>
+    <a class="quick-card" href="/admin/audit-logs"><span class="quick-icon">◷</span><span><strong>Audit logs</strong><small>Review important platform activity.</small></span><b>→</b></a>
+  </div>
+</section>
+<section class="dashboard-columns dashboard-section">
+  <article class="panel-card"><div class="section-heading compact"><div><span class="eyebrow">GROWTH</span><h2>User registrations · 14 days</h2></div></div><%- include('../partials/bars', { rows: regs }) %></article>
+  <article class="panel-card"><div class="section-heading compact"><div><span class="eyebrow">ENGAGEMENT</span><h2>Assessment attempts · 14 days</h2></div></div><%- include('../partials/bars', { rows: attempts }) %></article>
+</section>
+<section class="dashboard-section panel-card"><div class="section-heading compact"><div><span class="eyebrow">ACCOUNTABILITY</span><h2>Recent platform activity</h2></div><a class="text-link" href="/admin/audit-logs">View audit log →</a></div>
+  <% if (!recent.length) { %><div class="empty-state"><span>◷</span><strong>No activity recorded yet</strong><p>Important administrative and content changes will appear here.</p></div><% } %>
+  <% recent.forEach(function (r) { %><div class="timeline-item"><span class="timeline-dot"></span><div><strong><%= r.action %> · <%= r.entity_type %> #<%= r.entity_id %></strong><small><%= r.name || 'System' %> · <%= new Date(r.created_at).toLocaleString() %></small></div></div><% }) %>
+</section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,11 @@
+<% if (pagination.pages > 1) { %>
+  <% const href = function (n) { return '?' + (pagination.base ? pagination.base + '&' : '') + 'page=' + n; }; %>
+  <nav class="pagination" aria-label="Pagination">
+    <% if (pagination.page > 1) { %><a class="btn btn-outline btn-sm" href="<%= href(pagination.page - 1) %>">Previous</a><% } %>
+    <% for (let n = 1; n <= pagination.pages; n += 1) { %>
+      <a class="btn btn-sm <%= n === pagination.page ? 'btn-primary' : 'btn-outline' %>" href="<%= href(n) %>" <%= n === pagination.page ? 'aria-current=page' : '' %>><%= n %></a>
+    <% } %>
+    <% if (pagination.page < pagination.pages) { %><a class="btn btn-outline btn-sm" href="<%= href(pagination.page + 1) %>">Next</a><% } %>
+    <span class="muted"><%= pagination.total %> results</span>
+  </nav>
+<% } %>

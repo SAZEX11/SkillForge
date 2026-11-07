@@ -1,0 +1,10 @@
+<%- include('../partials/header') %>
+<%- include('../partials/content-nav') %>
+<div class="page-head"><h1>Assessments</h1><a class="btn btn-primary" href="/content/assessments/new">New assessment</a></div>
+<form class="card filters" method="GET" action="/content/assessments"><input type="search" name="q" value="<%= q %>" placeholder="Search assessments" aria-label="Search"><button class="btn btn-primary" type="submit">Search</button></form>
+<section class="card table-wrap"><table class="data-table"><thead><tr><th>Title</th><th>Questions</th><th>Time</th><th>Status</th><th></th></tr></thead><tbody>
+  <% rows.forEach(function (r) { %><tr><td><%= r.title %></td><td><%= r.questions %></td><td><%= r.time_limit %> min</td>
+    <td><span class="badge <%= r.status === 'published' ? 'badge-success' : '' %>"><%= r.status %></span></td>
+    <td><a class="btn btn-outline btn-sm" href="/content/assessments/<%= r.id %>/edit">Manage</a></td></tr><% }) %>
+  <% if (!rows.length) { %><tr><td colspan="5" class="muted">No assessments found.</td></tr><% } %></tbody></table></section>
+<%- include('../partials/footer') %>

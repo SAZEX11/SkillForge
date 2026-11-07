@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+<section class="card narrow">
+  <div class="chips"><span class="chip"><%= resource.skill %></span><span class="chip"><%= resource.resource_type %></span><span class="chip"><%= resource.difficulty %></span></div>
+  <h1><%= resource.title %></h1>
+  <p class="muted"><%= resource.description %></p>
+  <a class="btn btn-primary" href="<%= /^https?:\/\//.test(resource.url) ? resource.url : '#' %>" target="_blank" rel="noopener noreferrer">Open Resource</a>
+  <a class="btn btn-outline" href="/resources">Back to resources</a>
+  <% if (related.length) { %><h2>More for <%= resource.skill %></h2>
+    <% related.forEach(function (r) { %><div class="resource-line"><a href="/resources/<%= r.id %>"><%= r.title %></a><span class="chip"><%= r.difficulty %></span></div><% }) %>
+  <% } %>
+</section>
+<%- include('../partials/footer') %>

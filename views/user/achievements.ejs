@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<h1>Achievements</h1>
+<p class="muted"><%= earned %> of <%= list.length %> unlocked</p>
+<section class="assessment-grid">
+  <% list.forEach(function (a) { %>
+    <article class="card achievement <%= a.earned_at ? 'is-unlocked' : 'is-locked' %>">
+      <span class="badge-icon" aria-hidden="true"><%= a.earned_at ? '🏆' : '🔒' %></span>
+      <h2><%= a.name %></h2>
+      <p class="muted"><%= a.earned_at ? a.description : 'Requirement: ' + a.description %></p>
+      <% if (a.earned_at) { %><span class="badge badge-success">Earned <%= new Date(a.earned_at).toLocaleDateString() %></span>
+      <% } else { %><span class="badge">Locked</span><% } %>
+    </article>
+  <% }) %>
+</section>
+<%- include('../partials/footer') %>
